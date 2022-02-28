@@ -58,7 +58,7 @@ export default defineComponent({
     })
 
     watch(state, (n) => {
-      console.log("state:" + n)
+      // console.log("state:" + n)
     })
 
     const onChange = (type, target) => {

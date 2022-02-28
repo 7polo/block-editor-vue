@@ -29,15 +29,6 @@
   "resolved" "https://registry.npmjs.org/@editorjs/delimiter/-/delimiter-1.2.0.tgz"
   "version" "1.2.0"
 
-"@editorjs/editorjs@^2.22.2":
-  "integrity" "sha512-rPCv7Z5LZebreQaaL4DZuWzoVGEqwB+P7BF1dsefGQNBmLyeLF412topeW2b6e+g4l1oQ7t75kCOACNTEyYYIA=="
-  "resolved" "https://registry.npmjs.org/@editorjs/editorjs/-/editorjs-2.22.2.tgz"
-  "version" "2.22.2"
-  dependencies:
-    "codex-notifier" "^1.1.2"
-    "codex-tooltip" "^1.0.2"
-    "nanoid" "^3.1.22"
-
 "@editorjs/embed@^2.4.6":
   "integrity" "sha512-kKMblRKWzTYP0mX/sO2/Ysn5wd76eP47DAdQc15qCveocRBCO+pSlY57p6mTd1x79yP+yFo7mv4iaZZFa4idkw=="
   "resolved" "https://registry.npmjs.org/@editorjs/embed/-/embed-2.5.0.tgz"
@@ -173,6 +164,21 @@
   "resolved" "https://registry.npmjs.org/@vue/shared/-/shared-3.2.26.tgz"
   "version" "3.2.26"
 
+"@vueuse/core@^7.6.2":
+  "integrity" "sha512-bjAbXJVJO6aElMaZtDz2B70C0L6jFk/jGVqJxWZS5huffxA6dW5DN6tQQJwzOnx9B9rDhePHJIFKsix0qZIH2Q=="
+  "resolved" "https://registry.npmjs.org/@vueuse/core/-/core-7.6.2.tgz"
+  "version" "7.6.2"
+  dependencies:
+    "@vueuse/shared" "7.6.2"
+    "vue-demi" "*"
+
+"@vueuse/shared@7.6.2":
+  "integrity" "sha512-ThDld4Mx501tahRuHV6qJGkwCr17GknZrOzlD02Na9qJcH7Pq0quNTLx5cNDou7b1CKNvE3BXi2w/hz9KuPNTQ=="
+  "resolved" "https://registry.npmjs.org/@vueuse/shared/-/shared-7.6.2.tgz"
+  "version" "7.6.2"
+  dependencies:
+    "vue-demi" "*"
+
 "ajv-keywords@^3.5.2":
   "integrity" "sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ=="
   "resolved" "https://registry.npmjs.org/ajv-keywords/-/ajv-keywords-3.5.2.tgz"
@@ -210,16 +216,6 @@
   dependencies:
     "balanced-match" "^1.0.0"
     "concat-map" "0.0.1"
-
-"codex-notifier@^1.1.2":
-  "integrity" "sha512-DCp6xe/LGueJ1N5sXEwcBc3r3PyVkEEDNWCVigfvywAkeXcZMk9K41a31tkEFBW0Ptlwji6/JlAb49E3Yrxbtg=="
-  "resolved" "https://registry.npmjs.org/codex-notifier/-/codex-notifier-1.1.2.tgz"
-  "version" "1.1.2"
-
-"codex-tooltip@^1.0.2":
-  "integrity" "sha512-Ud+N+y8PMIa9xGyKuo2j3q8QlfTzkMWQ5KeRrbCDerwVn7xq45nqPKQCFBXEMV0YI42/OqSMnsxP8MyVAyVhnA=="
-  "resolved" "https://registry.npmjs.org/codex-tooltip/-/codex-tooltip-1.0.4.tgz"
-  "version" "1.0.4"
 
 "concat-map@0.0.1":
   "integrity" "sha1-2Klr13/Wjfd5OnMDajug1UBdR3s="
@@ -797,7 +793,12 @@
   optionalDependencies:
     "fsevents" "~2.3.2"
 
-"vue@^3.2.25", "vue@3.2.26":
+"vue-demi@*":
+  "integrity" "sha512-QL3ny+wX8c6Xm1/EZylbgzdoDolye+VpCXRhI2hug9dJTP3OUJ3lmiKN3CsVV3mOJKwFi0nsstbgob0vG7aoIw=="
+  "resolved" "https://registry.npmjs.org/vue-demi/-/vue-demi-0.12.1.tgz"
+  "version" "0.12.1"
+
+"vue@^2.6.0 || ^3.2.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.2.25", "vue@3.2.26":
   "integrity" "sha512-KD4lULmskL5cCsEkfhERVRIOEDrfEL9CwAsLYpzptOGjaGFNWo3BQ9g8MAb7RaIO71rmVOziZ/uEN/rHwcUIhg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.2.26.tgz"
   "version" "3.2.26"
