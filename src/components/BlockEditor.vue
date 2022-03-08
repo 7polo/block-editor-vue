@@ -5,7 +5,7 @@
 
 import {STATE, EVENT_TYPES} from './constant'
 
-import {defineComponent, onMounted, ref, watch} from 'vue';
+import {defineComponent, nextTick, onMounted, ref, watch} from 'vue';
 import EditorJS from '../../../editor.js/dist/editor'
 import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
@@ -101,7 +101,7 @@ export default defineComponent({
       id: 0,
       timer: null,
       readyTime: 0,
-      isAllow: ()=> {
+      isAllow: () => {
         // return new Date().getTime() - renderRecord.readyTime > 500;
         return true
       }
@@ -127,7 +127,7 @@ export default defineComponent({
         holder: editor.id,
         tools: props.plugins,
         data: editorData,
-        onMessage(op){
+        onMessage(op) {
           emit('message', op)
         },
         onReady() {
@@ -135,7 +135,7 @@ export default defineComponent({
           emit('ready', editor.ref, editorData)
           renderRecord.readyTime = new Date().getTime();
 
-          editor.ref.notifier.show = (options)=> {
+          editor.ref.notifier.show = (options) => {
             alert(JSON.stringify(options))
           }
 
@@ -167,7 +167,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      createEditor(props.content)
+      nextTick(() => createEditor(props.content))
     })
 
     /**
