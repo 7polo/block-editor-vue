@@ -40,15 +40,18 @@ export default defineComponent({
         "data": {
           "text": 211
         }
-      }/*, {
+      }, {
         "type": "image",
+        "id": 'adad',
         "data": {
-          "url": "https://codex.so/public/app/img/external/codex2x.png",
+          // "url": "https://codex.so/public/app/img/external/codex2x.png",
+          "url": "http://file.apologizebao.cn/jnote/other/i1o.png",
+          // "url": "http://file.apologizebao.cn/jnote/other/io.png",
           "withBorder": false,
           "stretched": false,
           "withBackground": false
         }
-      }*/, {
+      }, {
         "type": 'code',
         "data": {
           "code": "123123123"
