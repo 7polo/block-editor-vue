@@ -7,6 +7,7 @@ import {STATE, EVENT_TYPES} from './constant'
 
 import {defineComponent, nextTick, onMounted, ref, watch} from 'vue';
 import EditorJS from '../../../editor.js/dist/editor'
+import {CommandParagraph} from "../../../block-editor-plugins/paragraph/src/";
 import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
 
@@ -20,7 +21,7 @@ export default defineComponent({
     state: {
       type: String,
       required: false,
-      default: STATE.NONE
+      default: STATE.READY
     },
     content: {
       type: Object,
@@ -46,9 +47,22 @@ export default defineComponent({
       ref: null
     }
 
+    const record = {
+      requestId: 0,
+      renderId: 0
+    }
+
     const content = ref(props.content)
     watch(() => props.content, (newValue) => {
-      createEditor(newValue)
+      // console.log('watch content....')
+      record.requestId++;
+      content.value = newValue
+
+      // 如果渲染id没变说明是同一篇
+      if (content.value._renderId === record.renderId) {
+        return
+      }
+      createEditor()
     })
 
     const state = useVModel(props, 'state', emit)
@@ -63,26 +77,21 @@ export default defineComponent({
     const onEdit = (type, index, editBlock) => {
       const old = JSON.parse(JSON.stringify(content.value))
       const blocks = content.value.blocks || []
-      const block = blocks[index]
 
+      const currentIdx = blocks.findIndex(item => item.id === editBlock.id);
       if (type === EVENT_TYPES["block-added"]) {
         blocks.splice(index, 0, editBlock)
       }
 
       if (type === EVENT_TYPES["block-changed"]) {
-        if (block?.id === editBlock.id) {
-          Object.assign(block, editBlock)
-        } else {
-          blocks.splice(index, 0, editBlock)
-        }
+        const block = blocks[currentIdx]
+        Object.assign(block, editBlock)
       }
 
       if (type === EVENT_TYPES["block-removed"]) {
-        if (block?.id === editBlock.id) {
-          blocks.splice(index, 1)
-        }
+        blocks.splice(currentIdx, 1)
       }
-
+      content.value._renderId = record.renderId
       emit('update:content', content.value)
       emit('change', content.value, old, {
         type: type,
@@ -97,60 +106,54 @@ export default defineComponent({
       }
     }
 
-    const renderRecord = {
-      id: 0,
-      timer: null,
-      readyTime: 0,
-      isAllow: () => {
-        // return new Date().getTime() - renderRecord.readyTime > 500;
-        return true
+    watch(state, (v) => {
+      if (v === STATE.READY) {
+        if (record.requestId === record.renderId) {
+          return;
+        }
+        // console.log('retry:' + JSON.stringify(record))
+        createEditor()
       }
-    }
-    const createEditor = (data, retry = false) => {
-      Object.assign(renderRecord, {id: nanoid()})
-      if (!retry) {
-        // 非重试的才记录
-        content.value = data
-      }
-      if (getState() === STATE.LOADING || !renderRecord.isAllow()) {
+    })
+
+    const createEditor = () => {
+      const requestId = record.requestId
+      if (getState() === STATE.LOADING) {
+        // console.warn('not allow render this moment: ' + requestId + ' ' + record.renderId + '   ' + getState())
         return
       }
-      const renderId = renderRecord.id
+
+      const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
       setState(STATE.LOADING)
       destroyEditor();
-      // console.log("init editor")
-      const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
+
       editor.ref = new EditorJS({
         logLevel: 'ERROR',
         readOnly: props.readOnly,
         autofocus: true,
         holder: editor.id,
-        tools: props.plugins,
+        tools: Object.assign({
+          paragraph: CommandParagraph(() => {
+            return editor.ref
+          })
+        }, props.plugins),
         data: editorData,
         onMessage(op) {
           emit('message', op)
         },
         onReady() {
-          setState(STATE.READY)
-          emit('ready', editor.ref, editorData)
-          renderRecord.readyTime = new Date().getTime();
-
-          editor.ref.notifier.show = (options) => {
-            alert(JSON.stringify(options))
-          }
-
-          // 渲染的不是最新的， 重新渲染
-          if (renderRecord.timer) {
-            clearTimeout(renderRecord.timer)
-          }
-          renderRecord.timer = setTimeout(() => {
-            if (renderRecord.id !== renderId) {
-              renderRecord.timer = null
-              createEditor(content.value, true)
-            }
-          }, 200)
+          // 渲染完成后
+          setTimeout(() => {
+            setState(STATE.READY)
+            record.renderId = requestId
+            // console.log('渲染完成:' + requestId + ' ' + getState())
+            emit('ready', editor.ref, editorData)
+          }, 1000)
         },
         onChange: function (api, {detail, type}) {
+          if (detail.index === -1) {
+            return;
+          }
           if (!EVENT_TYPES[type]) {
             return
           }
@@ -158,6 +161,10 @@ export default defineComponent({
           setState(STATE.MODIFIED)
           const {target, index} = detail;
           target.save().then(data => {
+            // console.group(type)
+            // console.log(detail)
+            // console.log(data)
+            // console.groupEnd()
             onEdit(EVENT_TYPES[type], index, data)
           }).catch(() => {
             setState(lastState)
@@ -203,6 +210,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less" scoped>
-
+<style lang="less">
+@import "../styles/editor-beauty.less";
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 0 100px 0 100px">
     <button @click="changeContent">切换</button>
     <button @click="changeState">切换状态</button>
     <div>{{ state }}</div>
@@ -31,18 +31,20 @@ export default defineComponent({
   setup() {
 
     const readOnly = ref(false)
-    const state = ref(STATE.NONE)
+    const state = ref(STATE.READY)
     const content = ref({
       "time": 1632326526488,
       "blocks": [{
-        'blockId': '1',
+        'id': 'a',
+        'blockId': 'a1',
         "type": "paragraph",
         "data": {
           "text": 211
         }
       }, {
+        'id': 'b',
+        'blockId': 'b1',
         "type": "image",
-        "id": 'adad',
         "data": {
           // "url": "https://codex.so/public/app/img/external/codex2x.png",
           "url": "http://file.apologizebao.cn/jnote/other/i1o.png",
@@ -52,6 +54,8 @@ export default defineComponent({
           "withBackground": false
         }
       }, {
+        'id': 'c',
+        'blockId': 'c1',
         "type": 'code',
         "data": {
           "code": "123123123"
@@ -65,8 +69,8 @@ export default defineComponent({
     })
 
     const onChange = (type, target) => {
-      console.log(type)
-      console.log(target)
+      // console.log(type)
+      // console.log(target)
     }
 
     const count = ref(0)
@@ -78,6 +82,7 @@ export default defineComponent({
         "time": 1632326526488,
         "blocks": [{
           "type": "paragraph",
+          'id': 'b',
           "data": {
             "text": "新" + count.value
           }

@@ -2,8 +2,12 @@ import Image from '../../block-editor-plugins/editorjs-image/src';
 import Code from '../../block-editor-plugins/editorjs-code/src';
 // import DragDrop from '../../../plugin/dragdrop/src/'
 // import Minder from '../../../plugin/minder/src/'
-import Undo from 'editorjs-undo';
-import header from '@editorjs/header';
+// import Undo from 'editorjs-undo';
+// import header from '@editorjs/header';
+import header from '../../block-editor-plugins/header/src';
+// import Paragraph from '../../block-editor-plugins/paragraph/src';
+import delimiter from '@editorjs/delimiter';
+
 import list from '@editorjs/nested-list';
 import table from 'editorjs-table';
 import Alert from 'editorjs-alert';
@@ -11,11 +15,17 @@ import {unsplashJson} from './unsplash-json';
 
 export const plugins = {
     // code: Code,
-    // paragraph: paragraph,
+    // paragraph: {
+    //     class: Paragraph,
+    //     inlineToolbar: true,
+    //     isInternal: true,
+    // },
     // minder: Minder,
-
     // quote: require('@editorjs/quote'),
-    header: header,
+    header: {
+        class: header,
+        shortcut: 'SHIFT+T'
+    },
     list: {
         class: list,
         inlineToolbar: true,
@@ -28,6 +38,7 @@ export const plugins = {
 
     table: table,
     Alert: Alert,
+    delimiter: delimiter,
     code: Code,
     // code: require('@7polo/editorjs-code'),
     image: {
@@ -35,18 +46,16 @@ export const plugins = {
         class: Image,
         config: {
             unsplash: {
-                search: ()=> {
-                    return new Promise(function(resolve){
+                search: () =>
+                    new Promise(function (resolve) {
                         resolve(unsplashJson);
                     })
-                }
             },
             upload: {
-                doUpload: ()=> {
-                    return new Promise(function(resolve){
+                doUpload: () =>
+                    new Promise(function (resolve) {
                         resolve({url: 'http://file.apologizebao.cn/jnote/other/io.png'});
                     })
-                }
             }
         }
     }
