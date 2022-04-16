@@ -7,7 +7,7 @@ import {STATE, EVENT_TYPES} from './constant'
 
 import {defineComponent, nextTick, onMounted, ref, watch} from 'vue';
 import EditorJS from '../../../editor.js/dist/editor'
-import {CommandParagraph} from "../../../block-editor-plugins/paragraph/src/";
+import Paragraph, {Commander} from "../../../block-editor-plugins/paragraph/src/";
 import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
 
@@ -127,17 +127,29 @@ export default defineComponent({
       setState(STATE.LOADING)
       destroyEditor();
 
+      const commander = new Commander(() => {
+        return editor.ref
+      });
+
       editor.ref = new EditorJS({
         logLevel: 'ERROR',
         readOnly: props.readOnly,
         autofocus: true,
         holder: editor.id,
         tools: Object.assign({
-          paragraph: CommandParagraph(() => {
-            return editor.ref
-          })
+          paragraph: {
+            class: Paragraph,
+            inlineToolbar: true,
+            isInternal: true,
+            config: {
+              commander: commander
+            }
+          }
         }, props.plugins),
         data: editorData,
+        onBeforeKeydown(event) {
+          return !commander.isEnable()
+        },
         onMessage(op) {
           emit('message', op)
         },
@@ -146,9 +158,8 @@ export default defineComponent({
           setTimeout(() => {
             setState(STATE.READY)
             record.renderId = requestId
-            // console.log('渲染完成:' + requestId + ' ' + getState())
             emit('ready', editor.ref, editorData)
-          }, 1000)
+          }, 500)
         },
         onChange: function (api, {detail, type}) {
           if (detail.index === -1) {

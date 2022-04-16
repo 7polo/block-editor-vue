@@ -24,7 +24,10 @@ export const plugins = {
     // quote: require('@editorjs/quote'),
     header: {
         class: header,
-        shortcut: 'SHIFT+T'
+        shortcut: 'SHIFT+T',
+        config: {
+            // levels: [1, 2]
+        }
     },
     list: {
         class: list,

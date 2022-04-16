@@ -1,9 +1,9 @@
 {
   "name": "@7polo/block-editor-vue",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": "./dist/block-editor-vue.es.js",
   "scripts": {
-    "dev": "vite",
+    "edotor-vue:dev": "vite",
     "block-editor-vue build": "vite build",
     "preview": "vite preview"
   },
