@@ -6,7 +6,8 @@
 import {STATE, EVENT_TYPES} from './constant'
 
 import {defineComponent, nextTick, onMounted, ref, watch} from 'vue';
-import EditorJS from '../../../editor.js/dist/editor'
+// import EditorJS from '../../../editor.js/dist/editor'
+import EditorJS from '@7polo/editorjs';
 import Paragraph, {Commander} from "../../../block-editor-plugins/paragraph/src/";
 import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
@@ -20,8 +21,8 @@ export default defineComponent({
     },
     state: {
       type: String,
-      required: false,
-      default: STATE.READY
+      required: true,
+      default: STATE.NONE
     },
     content: {
       type: Object,
@@ -44,6 +45,7 @@ export default defineComponent({
 
     const editor = {
       id: 'editor_' + nanoid(5),
+      lock: false,
       ref: null
     }
 
@@ -54,7 +56,6 @@ export default defineComponent({
 
     const content = ref(props.content)
     watch(() => props.content, (newValue) => {
-      // console.log('watch content....')
       record.requestId++;
       content.value = newValue
 
@@ -69,10 +70,18 @@ export default defineComponent({
     const setState = (newState) => {
       state.value = newState
     }
-
     const getState = () => {
       return state.value
     }
+    watch(state, (v) => {
+      console.log('watch')
+      if (v === STATE.READY) {
+        if (record.requestId === record.renderId) {
+          return;
+        }
+        createEditor()
+      }
+    })
 
     const onEdit = (type, index, editBlock) => {
       const old = JSON.parse(JSON.stringify(content.value))
@@ -100,37 +109,32 @@ export default defineComponent({
     }
 
     const destroyEditor = () => {
+      console.log('destroy editor')
       let editorRef = editor.ref
-      if (editorRef && typeof editorRef.destroy == 'function') {
+      if (!editorRef) {
+        console.warn('editor [ref] is not valid')
+        return
+      }
+      if (typeof editorRef.destroy == 'function') {
         editorRef.destroy();
+      } else {
+        console.warn('editor [destroy] is not function')
       }
     }
 
-    watch(state, (v) => {
-      if (v === STATE.READY) {
-        if (record.requestId === record.renderId) {
-          return;
-        }
-        // console.log('retry:' + JSON.stringify(record))
-        createEditor()
-      }
-    })
-
     const createEditor = () => {
+      console.log('createEditor:' + getState() + ":" + editor.lock)
       const requestId = record.requestId
-      if (getState() === STATE.LOADING) {
-        // console.warn('not allow render this moment: ' + requestId + ' ' + record.renderId + '   ' + getState())
+      if (editor.lock) {
         return
       }
-
-      const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
+      editor.lock = true
       setState(STATE.LOADING)
+      const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
       destroyEditor();
-
       const commander = new Commander(() => {
         return editor.ref
       });
-
       editor.ref = new EditorJS({
         logLevel: 'ERROR',
         readOnly: props.readOnly,
@@ -156,6 +160,8 @@ export default defineComponent({
         onReady() {
           // 渲染完成后
           setTimeout(() => {
+            console.log('ready')
+            editor.lock = false
             setState(STATE.READY)
             record.renderId = requestId
             emit('ready', editor.ref, editorData)
@@ -186,7 +192,7 @@ export default defineComponent({
 
     onMounted(() => {
       nextTick(() => createEditor(props.content))
-    })
+    });
 
     /**
      * 同步更新block块的id

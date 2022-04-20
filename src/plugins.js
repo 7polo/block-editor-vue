@@ -3,14 +3,17 @@ import Code from '../../block-editor-plugins/editorjs-code/src';
 // import DragDrop from '../../../plugin/dragdrop/src/'
 // import Minder from '../../../plugin/minder/src/'
 // import Undo from 'editorjs-undo';
-// import header from '@editorjs/header';
 import header from '../../block-editor-plugins/header/src';
+
 // import Paragraph from '../../block-editor-plugins/paragraph/src';
 import delimiter from '@editorjs/delimiter';
 
 import list from '@editorjs/nested-list';
 import table from 'editorjs-table';
 import Alert from 'editorjs-alert';
+import Link from '../../block-editor-plugins/editor-link/src';
+
+
 import {unsplashJson} from './unsplash-json';
 
 export const plugins = {
@@ -41,6 +44,7 @@ export const plugins = {
 
     table: table,
     Alert: Alert,
+    link: Link,
     delimiter: delimiter,
     code: Code,
     // code: require('@7polo/editorjs-code'),

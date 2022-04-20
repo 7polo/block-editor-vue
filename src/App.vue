@@ -15,6 +15,7 @@
         v-model:content="content"
         :plugins="plugins"
         @change="onChange"
+        @message="onMessage"
     />
   </div>
 </template>
@@ -60,6 +61,13 @@ export default defineComponent({
         "data": {
           "code": "123123123"
         }
+      }, {
+        'id': 'd',
+        'blockId': 'd3',
+        "type": 'link',
+        "data": {
+          "link": "https://www.processon.com/embed/5d006c43e4b071ad5a206ed2"
+        }
       }],
       "version": "2.20.2"
     })
@@ -94,6 +102,10 @@ export default defineComponent({
     const changeState = () => {
       state.value = STATE.READY
     }
+
+    const onMessage = (msg) => {
+      console.log(msg)
+    }
     return {
       readOnly,
       state,
@@ -103,7 +115,8 @@ export default defineComponent({
       count,
       changeContent,
       changeState,
-      onChange
+      onChange,
+      onMessage
     }
   }
 });
