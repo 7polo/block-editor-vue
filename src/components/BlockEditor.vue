@@ -5,12 +5,11 @@
 
 import {STATE, EVENT_TYPES} from './constant'
 
-import {defineComponent, nextTick, onMounted, ref, watch} from 'vue';
-// import EditorJS from '../../../editor.js/dist/editor'
-import EditorJS from '@7polo/editorjs';
-import Paragraph, {Commander} from "../../../block-editor-plugins/paragraph/src/";
+import {defineComponent, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
 import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
+import EditorJS from '@7polo/editorjs';
+
 
 export default defineComponent({
   props: {
@@ -37,7 +36,9 @@ export default defineComponent({
       type: Object,
       required: false,
       default() {
-        return {}
+        return {
+          tools: {}
+        }
       }
     }
   },
@@ -56,13 +57,12 @@ export default defineComponent({
 
     const content = ref(props.content)
     watch(() => props.content, (newValue) => {
-      record.requestId++;
       content.value = newValue
-
       // 如果渲染id没变说明是同一篇
       if (content.value._renderId === record.renderId) {
         return
       }
+      record.requestId++;
       createEditor()
     })
 
@@ -74,12 +74,19 @@ export default defineComponent({
       return state.value
     }
     watch(state, (v) => {
-      console.log('watch')
+      // console.log('watch')
       if (v === STATE.READY) {
         if (record.requestId === record.renderId) {
           return;
         }
         createEditor()
+      }
+    });
+
+    watch(() => props.readOnly, (readOnly) => {
+      // console.log('readOnly')
+      if (editor.ref) {
+        editor.ref.readOnly.toggle()
       }
     })
 
@@ -109,7 +116,7 @@ export default defineComponent({
     }
 
     const destroyEditor = () => {
-      console.log('destroy editor')
+      // console.log('destroy editor')
       let editorRef = editor.ref
       if (!editorRef) {
         console.warn('editor [ref] is not valid')
@@ -123,7 +130,7 @@ export default defineComponent({
     }
 
     const createEditor = () => {
-      console.log('createEditor:' + getState() + ":" + editor.lock)
+      // console.log('createEditor:' + getState() + ":" + editor.lock)
       const requestId = record.requestId
       if (editor.lock) {
         return
@@ -132,35 +139,29 @@ export default defineComponent({
       setState(STATE.LOADING)
       const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
       destroyEditor();
-      const commander = new Commander(() => {
-        return editor.ref
-      });
+      const command = props.plugins.command;
       editor.ref = new EditorJS({
         logLevel: 'ERROR',
         readOnly: props.readOnly,
         autofocus: true,
         holder: editor.id,
-        tools: Object.assign({
-          paragraph: {
-            class: Paragraph,
-            inlineToolbar: true,
-            isInternal: true,
-            config: {
-              commander: commander
-            }
-          }
-        }, props.plugins),
+        tools: Object.assign({}, props.plugins?.tools),
         data: editorData,
         onBeforeKeydown(event) {
-          return !commander.isEnable()
+          if (command) {
+            return !command.onKeyUp(event)
+          }
         },
         onMessage(op) {
           emit('message', op)
         },
         onReady() {
+          if (command) {
+            command.bindEditor(editor.ref)
+          }
           // 渲染完成后
           setTimeout(() => {
-            console.log('ready')
+            // console.log('ready')
             editor.lock = false
             setState(STATE.READY)
             record.renderId = requestId
@@ -193,6 +194,10 @@ export default defineComponent({
     onMounted(() => {
       nextTick(() => createEditor(props.content))
     });
+
+    onUnmounted(()=> {
+      destroyEditor()
+    })
 
     /**
      * 同步更新block块的id

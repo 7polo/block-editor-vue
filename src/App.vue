@@ -2,14 +2,17 @@
   <div style="padding: 0 100px 0 100px">
     <button @click="changeContent">切换</button>
     <button @click="changeState">切换状态</button>
+    <button @click="readOnly = !readOnly">{{readOnly}}</button>
     <div>{{ state }}</div>
     <div>{{ readOnly }}</div>
     <div>{{ count }}</div>
     <div>
       {{ content.blocks }}
     </div>
+    <div @click="close=true">关闭</div>
 
     <block-editor
+        v-if="!close"
         v-model:readOnly="readOnly"
         v-model:state="state"
         v-model:content="content"
@@ -33,6 +36,7 @@ export default defineComponent({
 
     const readOnly = ref(false)
     const state = ref(STATE.READY)
+
     const content = ref({
       "time": 1632326526488,
       "blocks": [{
@@ -66,7 +70,10 @@ export default defineComponent({
         'blockId': 'd3',
         "type": 'link',
         "data": {
-          "link": "https://www.processon.com/embed/5d006c43e4b071ad5a206ed2"
+          "link": "https://www.processon.com/embed/5d006c43e4b071ad5a206ed2",
+          meta: {
+            height: 300
+          }
         }
       }],
       "version": "2.20.2"
@@ -106,12 +113,14 @@ export default defineComponent({
     const onMessage = (msg) => {
       console.log(msg)
     }
+
+    const close = ref(false)
     return {
+      close,
       readOnly,
       state,
       content,
       plugins,
-
       count,
       changeContent,
       changeState,

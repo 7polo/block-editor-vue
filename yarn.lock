@@ -7,6 +7,18 @@
   resolved "https://registry.npmjs.org/@7polo/editorjs-code/-/editorjs-code-1.0.8.tgz"
   integrity sha512-Qtpt7VzT3DKPZyhcCnBrFVhncwwNN8EdXCVSTlMeq2RlMjos8cZ1Pabh2qID4I9lD3TKC1/OYXU5RKeViVYs7Q==
 
+"@7polo/editorjs-command@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.npmjs.org/@7polo/editorjs-command/-/editorjs-command-0.0.5.tgz#aa99c01c34a1663c44b4d9dc299c29f340188a6f"
+  integrity sha512-TjShPIVNA3eFGLRZ6FbbFMcbH4zWYmPUdTdst1wm0667UwLxB2ylLQDaGYtPYrN0LXk/fHuY/woYDFNQenoQfw==
+  dependencies:
+    throttle-debounce "^4.0.1"
+
+"@7polo/editorjs-header@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@7polo/editorjs-header/-/editorjs-header-1.0.1.tgz#92d54a758b30d771b87285936dfd16f7a687b49e"
+  integrity sha512-NER9VWzXzM1OEeESjb+eZueRdnm9UX32KprtOoU2W1br7zHsKW3BR06KlALczUdTo7vMjTWUWQ27+9TN0xlcdg==
+
 "@7polo/editorjs-image@^1.0.1":
   version "1.0.4"
   resolved "https://registry.npmjs.org/@7polo/editorjs-image/-/editorjs-image-1.0.4.tgz"
@@ -14,10 +26,17 @@
   dependencies:
     viewerjs "^1.10.2"
 
-"@7polo/editorjs@2.23.3-7polo-0.2":
-  version "2.23.3-7polo-0.2"
-  resolved "https://registry.npmjs.org/@7polo/editorjs/-/editorjs-2.23.3-7polo-0.2.tgz#6f2f67204c2befe8ae87a170aa44de2b78d8222c"
-  integrity sha512-x2Dl6nH1mUwIZu7Le96k2fBbuDAs/eS15m/qYM7c6cvn6I5yiBHiY/Xlgngv/QNB6PMxJoHxFJm4JXydhhvpYw==
+"@7polo/editorjs-link@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@7polo/editorjs-link/-/editorjs-link-1.0.2.tgz#4e9f419093e47c99034bbc4b179ee00e95542a2d"
+  integrity sha512-v7FJw2Nx+/6ARKb61TP0FEp/YYkfm545LuZFPkhssG6ZJyjxKkVcjxaEG1t/+dCMxTuCBv4iixMpi1/Gu6SW6g==
+  dependencies:
+    throttle-debounce "^4.0.1"
+
+"@7polo/editorjs@2.23.3-1.1":
+  version "2.23.3-1.1"
+  resolved "https://registry.npmjs.org/@7polo/editorjs/-/editorjs-2.23.3-1.1.tgz#414bcf5812a5c3c69b33203370da1cc9f6761286"
+  integrity sha512-+wlNQqAZ7RzB0a/mstWKxd5NM5YEzv+zrGEozw/E+MG5Kt+QVTT7f5A7nx5STzx0g9uBlQway8jgP3Eg2YbX9g==
   dependencies:
     codex-notifier "^1.1.2"
     codex-tooltip "^1.0.5"
@@ -54,6 +73,11 @@
   version "2.6.2"
   resolved "https://registry.npmjs.org/@editorjs/header/-/header-2.6.2.tgz"
   integrity sha512-U1dnT+KGjwFmpWneEEyR2Nqp42hn9iKwQDgRHWQM+y6qx82pg+eAyuIf0QWt2Mluu9uPD2CzNfvJ+pxIuwX8Lw==
+
+"@editorjs/inline-code@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/@editorjs/inline-code/-/inline-code-1.3.1.tgz#4890e30d00dcaeacafbcb30459309dfd740b0d4b"
+  integrity sha512-iY6DeRmJo2Jl6sB2S9QEA9OoSp+KCHBztoY2fjPeiBcKCOKX8we5H3JQJTLxT0L/N8uJqCUiiPKgG6xvqaCn+g==
 
 "@editorjs/link@^2.4.0":
   version "2.4.0"
@@ -875,6 +899,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+throttle-debounce@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.npmjs.org/throttle-debounce/-/throttle-debounce-4.0.1.tgz#f86656fe9c8a6b8218952ef36c3bf225089b1baf"
+  integrity sha512-s3PedbXdZtr8v3J5Sxd5T/GmWG80BcK5GVpwDdvgEaUXsaMqQe4zxgmC4TA7B8luSDCPxo3CeSBS3F9rF1CZwg==
 
 tslib@^2.3.0, tslib@^2.3.1:
   version "2.3.1"
