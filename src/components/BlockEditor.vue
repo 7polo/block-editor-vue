@@ -10,7 +10,6 @@ import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
 import EditorJS from '@7polo/editorjs';
 
-
 export default defineComponent({
   props: {
     readOnly: {
@@ -91,10 +90,20 @@ export default defineComponent({
     })
 
     const onEdit = (type, index, editBlock) => {
-      const old = JSON.parse(JSON.stringify(content.value))
-      const blocks = content.value.blocks || []
 
+      const old = JSON.parse(JSON.stringify(content.value))
+
+      const blocks = content.value.blocks || []
+      content.value.blocks = blocks
+
+      delete editBlock.time;
       const currentIdx = blocks.findIndex(item => item.id === editBlock.id);
+
+      // fix
+      if (index === 0 && currentIdx===-1 && type === EVENT_TYPES["block-changed"]) {
+        type = EVENT_TYPES["block-added"]
+      }
+
       if (type === EVENT_TYPES["block-added"]) {
         blocks.splice(index, 0, editBlock)
       }

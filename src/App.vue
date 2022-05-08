@@ -37,48 +37,49 @@ export default defineComponent({
     const readOnly = ref(false)
     const state = ref(STATE.READY)
 
-    const content = ref({
-      "time": 1632326526488,
-      "blocks": [{
-        'id': 'a',
-        'blockId': 'a1',
-        "type": "paragraph",
-        "data": {
-          "text": 211
-        }
-      }, {
-        'id': 'b',
-        'blockId': 'b1',
-        "type": "image",
-        "data": {
-          // "url": "https://codex.so/public/app/img/external/codex2x.png",
-          "url": "http://file.apologizebao.cn/jnote/other/i1o.png",
-          // "url": "http://file.apologizebao.cn/jnote/other/io.png",
-          "withBorder": false,
-          "stretched": false,
-          "withBackground": false
-        }
-      }, {
-        'id': 'c',
-        'blockId': 'c1',
-        "type": 'code',
-        "data": {
-          "code": "123123123"
-        }
-      }, {
-        'id': 'd',
-        'blockId': 'd3',
-        "type": 'link',
-        "data": {
-          "link": "https://www.processon.com/embed/5d006c43e4b071ad5a206ed2",
-          meta: {
-            height: 300
-          }
-        }
-      }],
-      "version": "2.20.2"
-    })
+    // const content = ref({
+    //   "time": 1632326526488,
+    //   "blocks": [{
+    //     'id': 'a',
+    //     'blockId': 'a1',
+    //     "type": "paragraph",
+    //     "data": {
+    //       "text": 211
+    //     }
+    //   }, {
+    //     'id': 'b',
+    //     'blockId': 'b1',
+    //     "type": "image",
+    //     "data": {
+    //       // "url": "https://codex.so/public/app/img/external/codex2x.png",
+    //       "url": "http://file.apologizebao.cn/jnote/other/i1o.png",
+    //       // "url": "http://file.apologizebao.cn/jnote/other/io.png",
+    //       "withBorder": false,
+    //       "stretched": false,
+    //       "withBackground": false
+    //     }
+    //   }, {
+    //     'id': 'c',
+    //     'blockId': 'c1',
+    //     "type": 'code',
+    //     "data": {
+    //       "code": "123123123"
+    //     }
+    //   }, {
+    //     'id': 'd',
+    //     'blockId': 'd3',
+    //     "type": 'link',
+    //     "data": {
+    //       "link": "https://www.processon.com/embed/5d006c43e4b071ad5a206ed2",
+    //       meta: {
+    //         height: 300
+    //       }
+    //     }
+    //   }],
+    //   "version": "2.20.2"
+    // })
 
+    const content = ref({})
     watch(state, (n) => {
       // console.log("state:" + n)
     })
