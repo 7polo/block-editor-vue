@@ -1,6 +1,6 @@
 {
   "name": "@7polo/block-editor-vue",
-  "version": "0.0.18",
+  "version": "0.0.20",
   "main": "./dist/block-editor-vue.es.js",
   "scripts": {
     "block-editor-vue:dev": "vite",
@@ -30,7 +30,7 @@
     "@vitejs/plugin-vue": "^2.0.0",
     "@vueuse/core": "^8.2.6",
     "editorjs-alert": "^1.0.3",
-    "editorjs-table": "^1.4.10",
+    "@7polo/editorjs-table": "^1.4.12",
     "editorjs-undo": "^0.3.0",
     "less": "^4.1.2",
     "less-loader": "^7.3.0",

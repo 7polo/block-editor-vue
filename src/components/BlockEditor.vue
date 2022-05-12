@@ -11,6 +11,7 @@ import {useVModel} from "@vueuse/core";
 import EditorJS from '@7polo/editorjs';
 
 export default defineComponent({
+  inheritAttrs: false,
   props: {
     readOnly: {
       type: Boolean,
@@ -19,7 +20,7 @@ export default defineComponent({
     },
     state: {
       type: String,
-      required: true,
+      required: false,
       default: STATE.NONE
     },
     content: {
@@ -100,7 +101,7 @@ export default defineComponent({
       const currentIdx = blocks.findIndex(item => item.id === editBlock.id);
 
       // fix
-      if (index === 0 && currentIdx===-1 && type === EVENT_TYPES["block-changed"]) {
+      if (index === 0 && currentIdx === -1 && type === EVENT_TYPES["block-changed"]) {
         type = EVENT_TYPES["block-added"]
       }
 
@@ -204,7 +205,7 @@ export default defineComponent({
       nextTick(() => createEditor(props.content))
     });
 
-    onUnmounted(()=> {
+    onUnmounted(() => {
       destroyEditor()
     })
 
