@@ -3,7 +3,7 @@ import Code from '@7polo/editorjs-code';
 import header from '@7polo/editorjs-header';
 import Undo from 'editorjs-undo';
 import list from '@editorjs/nested-list';
-import table from 'editorjs-table';
+import table from '@7polo/editorjs-table';
 import Alert from 'editorjs-alert';
 import delimiter from '@editorjs/delimiter';
 import checklist from '@editorjs/checklist';

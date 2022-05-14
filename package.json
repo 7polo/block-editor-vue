@@ -1,6 +1,6 @@
 {
   "name": "@7polo/block-editor-vue",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "main": "./dist/block-editor-vue.es.js",
   "scripts": {
     "block-editor-vue:dev": "vite",

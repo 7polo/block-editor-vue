@@ -1,12 +1,11 @@
 <template>
-  <div class="block-editor" :id="editor.id"></div>
+  <div class="block-editor" ref="editorRef"></div>
 </template>
 <script>
 
 import {STATE, EVENT_TYPES} from './constant'
 
 import {defineComponent, nextTick, onMounted, onUnmounted, ref, watch} from 'vue';
-import {nanoid} from "nanoid";
 import {useVModel} from "@vueuse/core";
 import EditorJS from '@7polo/editorjs';
 
@@ -44,13 +43,11 @@ export default defineComponent({
   },
   setup(props, {emit, expose}) {
 
-    const editor = {
-      id: 'editor_' + nanoid(5),
-      lock: false,
-      ref: null
-    }
+    const editorRef = ref();
+    let editorJs = null;
 
     const record = {
+      lock: false,
       requestId: 0,
       renderId: 0
     }
@@ -74,7 +71,6 @@ export default defineComponent({
       return state.value
     }
     watch(state, (v) => {
-      // console.log('watch')
       if (v === STATE.READY) {
         if (record.requestId === record.renderId) {
           return;
@@ -84,9 +80,8 @@ export default defineComponent({
     });
 
     watch(() => props.readOnly, (readOnly) => {
-      // console.log('readOnly')
-      if (editor.ref) {
-        editor.ref.readOnly.toggle()
+      if (editorJs) {
+        editorJs.readOnly.toggle()
       }
     })
 
@@ -126,35 +121,33 @@ export default defineComponent({
     }
 
     const destroyEditor = () => {
-      // console.log('destroy editor')
-      let editorRef = editor.ref
-      if (!editorRef) {
-        console.warn('editor [ref] is not valid')
-        return
-      }
-      if (typeof editorRef.destroy == 'function') {
-        editorRef.destroy();
-      } else {
-        console.warn('editor [destroy] is not function')
+
+      if (editorJs) {
+        try {
+          editorJs.destroy()
+        } catch (error) {
+        }
+        if (editorRef.value) {
+          editorRef.value.innerHTML = ''
+        }
       }
     }
 
     const createEditor = () => {
-      // console.log('createEditor:' + getState() + ":" + editor.lock)
       const requestId = record.requestId
-      if (editor.lock) {
+      if (record.lock) {
         return
       }
-      editor.lock = true
+      record.lock = true
       setState(STATE.LOADING)
       const editorData = JSON.parse(JSON.stringify(content.value || {blocks: []}))
       destroyEditor();
       const command = props.plugins.command;
-      editor.ref = new EditorJS({
+      editorJs = new EditorJS({
         logLevel: 'ERROR',
         readOnly: props.readOnly,
         autofocus: true,
-        holder: editor.id,
+        holder: editorRef.value,
         tools: Object.assign({}, props.plugins?.tools),
         data: editorData,
         onBeforeKeydown(event) {
@@ -167,15 +160,14 @@ export default defineComponent({
         },
         onReady() {
           if (command) {
-            command.bindEditor(editor.ref)
+            command.bindEditor(editorJs)
           }
           // 渲染完成后
           setTimeout(() => {
-            // console.log('ready')
-            editor.lock = false
+            record.lock = false
             setState(STATE.READY)
             record.renderId = requestId
-            emit('ready', editor.ref, editorData)
+            emit('ready', editorJs, editorData)
           }, 500)
         },
         onChange: function (api, {detail, type}) {
@@ -189,10 +181,6 @@ export default defineComponent({
           setState(STATE.MODIFIED)
           const {target, index} = detail;
           target.save().then(data => {
-            // console.group(type)
-            // console.log(detail)
-            // console.log(data)
-            // console.groupEnd()
             onEdit(EVENT_TYPES[type], index, data)
           }).catch(() => {
             setState(lastState)
@@ -236,7 +224,7 @@ export default defineComponent({
     })
 
     return {
-      editor
+      editorRef
     }
   }
 });
