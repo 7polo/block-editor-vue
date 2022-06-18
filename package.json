@@ -1,6 +1,6 @@
 {
   "name": "@7polo/block-editor-vue",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "main": "./dist/block-editor-vue.es.js",
   "scripts": {
     "block-editor-vue:dev": "vite",
@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@7polo/editorjs": "2.23.3-1.1"
+    "@7polo/editorjs": "2.24.3-1.1"
   },
   "devDependencies": {
     "@7polo/editorjs-code": "^1.0.2",

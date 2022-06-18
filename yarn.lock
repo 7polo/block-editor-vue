@@ -41,10 +41,10 @@
     gridjs "^5.0.2"
     tui-grid "^4.21.1"
 
-"@7polo/editorjs@2.23.3-1.1":
-  version "2.23.3-1.1"
-  resolved "https://registry.npmjs.org/@7polo/editorjs/-/editorjs-2.23.3-1.1.tgz#414bcf5812a5c3c69b33203370da1cc9f6761286"
-  integrity sha512-+wlNQqAZ7RzB0a/mstWKxd5NM5YEzv+zrGEozw/E+MG5Kt+QVTT7f5A7nx5STzx0g9uBlQway8jgP3Eg2YbX9g==
+"@7polo/editorjs@2.24.3-1.1":
+  version "2.24.3-1.1"
+  resolved "https://registry.npmjs.org/@7polo/editorjs/-/editorjs-2.24.3-1.1.tgz#4ededa0d6b83da876b15bbd730bf3f8d73b9c1fb"
+  integrity sha512-y4s80uz0Hs56hrzfrEJWGxC8lnOiNpvDMzqEPF+W7i26eYI8MnxfI2j7F01dklnJ34fneDlzZojCppSxhHpjGQ==
   dependencies:
     codex-notifier "^1.1.2"
     codex-tooltip "^1.0.5"
