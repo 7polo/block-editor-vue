@@ -1,6 +1,6 @@
 {
   "name": "@7polo/block-editor-vue",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "main": "./dist/block-editor-vue.es.js",
   "scripts": {
     "block-editor-vue:dev": "vite",
@@ -8,14 +8,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@7polo/editorjs": "2.24.3-1.1"
+    "@7polo/editorjs": "2.25.0-1.0",
+    "@calumk/editorjs-columns": "^0.2.4",
+    "@editorjs/table": "^2.0.2"
   },
   "devDependencies": {
     "@7polo/editorjs-code": "^1.0.2",
-    "@7polo/editorjs-command": "^0.0.5",
-    "@7polo/editorjs-header": "^1.0.1",
+    "@7polo/editorjs-command": "^0.0.8",
+    "@7polo/editorjs-header": "^1.0.4",
     "@7polo/editorjs-image": "^1.0.1",
     "@7polo/editorjs-link": "^1.0.2",
+    "@7polo/editorjs-table": "^1.4.12",
     "@editorjs/checklist": "^1.3.0",
     "@editorjs/delimiter": "^1.2.0",
     "@editorjs/embed": "^2.4.6",
@@ -30,7 +33,6 @@
     "@vitejs/plugin-vue": "^2.0.0",
     "@vueuse/core": "^8.2.6",
     "editorjs-alert": "^1.0.3",
-    "@7polo/editorjs-table": "^1.4.12",
     "editorjs-undo": "^0.3.0",
     "less": "^4.1.2",
     "less-loader": "^7.3.0",

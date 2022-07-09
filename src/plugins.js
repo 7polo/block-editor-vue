@@ -11,7 +11,8 @@ import underline from '@editorjs/underline';
 import marker from '@editorjs/marker';
 import inlineCode from '@editorjs/inline-code';
 import LinkTool from '@7polo/editorjs-link';
-import Command from '@7polo/editorjs-command';
+// import Command from '@7polo/editorjs-command';
+import Command from '../../plugins/editorjs-command/src/index';
 
 export const plugins = {
     tools: {
